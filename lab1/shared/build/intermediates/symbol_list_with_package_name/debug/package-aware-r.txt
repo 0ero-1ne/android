@@ -1,0 +1,2 @@
+com.example.lab1.shared
+xml automotive_app_desc
