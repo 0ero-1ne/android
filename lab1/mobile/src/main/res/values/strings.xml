@@ -4,5 +4,6 @@
     <string name="calculate">Рассчитать</string>
     <string name="start_date">Дата начала</string>
     <string name="end_date">Дата конца</string>
-    <string name="payment_result">Расчитанное пособие</string>
+    <string name="payment_result">Расчитанное пособие: %1$d</string>
+    <string name="dateFormat">%1$s.%2$s.%3$d</string>
 </resources>
