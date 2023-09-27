@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
@@ -19,6 +20,8 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
     private EditText startDate;
     private EditText endDate;
+    private final int DAILY_PAYMENT = 5;
+
     private final View.OnClickListener datePickListener = view -> {
         Calendar calendar = Calendar.getInstance();
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -29,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
                 ((EditText) view).setText(getString(R.string.dateFormat, formatDay, formatMonth, year));
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        datePickerDialog.setOnCancelListener(dialogInterface -> ((EditText)view).setText(""));
 
         datePickerDialog.show();
     };
@@ -54,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
             if (start == null || end == null) {
                 Toast errorToast = Toast.makeText(getApplicationContext(), "Вы не указали дату(-ы)!", Toast.LENGTH_SHORT);
                 errorToast.show();
+                ((TextView) findViewById(R.id.textView4)).setText("");
                 return;
             }
 
@@ -62,7 +68,9 @@ public class MainActivity extends AppCompatActivity {
                 errorToast.show();
                 ((TextView) findViewById(R.id.textView4)).setText("");
             } else {
-                ((TextView) findViewById(R.id.textView4)).setText(getString(R.string.payment_result, 5000));
+                int illDays = Period.between(start, end).getDays() + 1;
+                double resultPayment = illDays <= 7 ? illDays * (DAILY_PAYMENT * 0.7) : 7 * (DAILY_PAYMENT * 0.7) + (illDays - 7) * DAILY_PAYMENT;
+                ((TextView) findViewById(R.id.textView4)).setText(getString(R.string.payment_result, resultPayment));
             }
         });
     }
