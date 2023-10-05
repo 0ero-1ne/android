@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">lab2</string>
     <string name="button_next">Next</string>
+    <string name="button_prev">Back</string>
+    <string name="first_name_hint">First Name</string>
+    <string name="middle_name_hint">Middle Name</string>
+    <string name="last_name_hint">Last Name</string>
 </resources>
