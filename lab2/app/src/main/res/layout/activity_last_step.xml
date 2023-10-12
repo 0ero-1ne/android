@@ -15,20 +15,20 @@
         android:layout_marginStart="181dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="182dp"
-        android:progress="33"
+        android:progress="100"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/nextPageButton"
+        android:id="@+id/saveButton"
         android:layout_width="170dp"
         android:layout_height="60dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/page_button"
-        android:text="@string/button_next"
+        android:text="@string/button_save"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -46,7 +46,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/firstNameTextInput"
+        android:id="@+id/dateTextInput"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="20dp"
@@ -56,57 +56,71 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar">
         <EditText
-            android:id="@+id/firstNameEditText"
+            android:id="@+id/dateEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:autofillHints=""
             android:ems="10"
-            android:hint="@string/first_name_hint"
-            android:inputType="text"
+            android:hint="@string/date_hint"
+            android:inputType="date"
+            android:focusable="false"
             tools:ignore="VisualLintTextFieldSize" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/lastNameTextInput"
+    <TextView
+        android:id="@+id/courseLabel"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
+        android:text="@string/course_hint"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/firstNameTextInput">
-        <EditText
-            android:id="@+id/lastNameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/last_name_hint"
-            android:inputType="text"
-            android:textColorHint="#546E7A"
-            tools:ignore="VisualLintTextFieldSize" />
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@+id/dateTextInput" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/middleNameTextInput"
+    <RadioGroup
+        android:id="@+id/coursesGroup"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
+        android:gravity="bottom"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastNameTextInput">
-        <EditText
-            android:id="@+id/middleNameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/middle_name_hint"
-            android:inputType="text"
-            android:textColorHint="#546E7A"
-            tools:ignore="VisualLintTextFieldSize" />
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@+id/courseLabel">
+
+        <RadioButton
+            android:id="@+id/radio1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/first_course" />
+
+        <RadioButton
+            android:id="@+id/radio2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/second_course" />
+
+        <RadioButton
+            android:id="@+id/radio3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/third_course" />
+
+        <RadioButton
+            android:id="@+id/radio4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fourth_course" />
+
+        <RadioButton
+            android:id="@+id/radio5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fifth_course" />
+    </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

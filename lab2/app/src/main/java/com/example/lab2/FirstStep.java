@@ -11,9 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class FirstStep extends AppCompatActivity {
     SharedPreferences sharedPreferences;
-    String firstName;
-    String lastName;
-    String middleName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,11 +19,17 @@ public class FirstStep extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("APP_SETTINGS", Context.MODE_PRIVATE);
 
-        Button btn = findViewById(R.id.nextPageButton);
-        btn.setOnClickListener(v -> {
-            this.firstName = String.valueOf(((EditText)findViewById(R.id.firstNameEditText)).getText());
-            this.middleName = String.valueOf(((EditText)findViewById(R.id.middleNameEditText)).getText());
-            this.lastName = String.valueOf(((EditText)findViewById(R.id.lastNameEditText)).getText());
+        Button prevPageButton = findViewById(R.id.prevPageButton);
+        prevPageButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        Button nextPageButton = findViewById(R.id.nextPageButton);
+        nextPageButton.setOnClickListener(v -> {
+            String firstName = String.valueOf(((EditText)findViewById(R.id.firstNameEditText)).getText());
+            String middleName = String.valueOf(((EditText)findViewById(R.id.middleNameEditText)).getText());
+            String lastName = String.valueOf(((EditText)findViewById(R.id.lastNameEditText)).getText());
 
             if (firstName.equals("")) {
                 ((EditText)findViewById(R.id.firstNameEditText)).setError("Empty first name");
@@ -44,10 +47,6 @@ public class FirstStep extends AppCompatActivity {
             }
 
             Intent intent = new Intent(this, SecondStep.class);
-            intent.putExtra("firstName", firstName);
-            intent.putExtra("lastName", lastName);
-            intent.putExtra("middleName", middleName);
-
             startActivity(intent);
         });
     }
@@ -56,9 +55,9 @@ public class FirstStep extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("firstName", this.firstName);
-        editor.putString("lastName", this.lastName);
-        editor.putString("middleName", this.middleName);
+        editor.putString("firstName", ((EditText)findViewById(R.id.firstNameEditText)).getText().toString());
+        editor.putString("lastName", ((EditText)findViewById(R.id.lastNameEditText)).getText().toString());
+        editor.putString("middleName", ((EditText)findViewById(R.id.middleNameEditText)).getText().toString());
         editor.apply();
     }
 

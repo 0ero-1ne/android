@@ -46,69 +46,38 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/firstNameTextInput"
+        android:id="@+id/facultySpinnerInput"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="20dp"
+        android:background="@drawable/spinner_input"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar">
-        <EditText
-            android:id="@+id/firstNameEditText"
+        <Spinner
+            android:id="@+id/facultySpinner"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/first_name_hint"
-            android:inputType="text"
-            tools:ignore="VisualLintTextFieldSize" />
+            android:layout_height="match_parent" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/middleNameTextInput"
+        android:id="@+id/specialitySpinnerInput"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
+        android:background="@drawable/spinner_input"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstNameTextInput">
-
-        <EditText
-            android:id="@+id/middleNameEditText"
+        app:layout_constraintTop_toBottomOf="@+id/facultySpinnerInput">
+        <Spinner
+            android:id="@+id/specialitySpinner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/middle_name_hint"
-            android:inputType="text"
-            android:textColorHint="#546E7A"
-            tools:ignore="VisualLintTextFieldSize" />
+            android:dropDownWidth="match_parent" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/thirdNameTextInput"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/middleNameTextInput">
-
-        <EditText
-            android:id="@+id/lastNameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/last_name_hint"
-            android:inputType="text"
-            android:textColorHint="#546E7A"
-            tools:ignore="VisualLintTextFieldSize" />
-    </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

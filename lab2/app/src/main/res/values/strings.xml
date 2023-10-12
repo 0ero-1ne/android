@@ -1,8 +1,20 @@
 <resources>
-    <string name="app_name">lab2</string>
+    <string name="app_name">BSTU Students List</string>
     <string name="button_next">Next</string>
     <string name="button_prev">Back</string>
     <string name="first_name_hint">First Name</string>
     <string name="middle_name_hint">Middle Name</string>
     <string name="last_name_hint">Last Name</string>
+    <string name="faculty_hint">Choose faculty</string>
+    <string name="button_save">Save</string>
+    <string name="date_hint">Admission date</string>
+    <string name="date_format">%1$s / %2$s / %3$d</string>
+    <string name="course_hint">Choose your course</string>
+    <string name="first_course">1</string>
+    <string name="second_course">2</string>
+    <string name="third_course">3</string>
+    <string name="fourth_course">4</string>
+    <string name="fifth_course">5</string>
+    <string name="button_new">Create</string>
+    <string name="main_label">BSTU STUDENTS</string>
 </resources>
