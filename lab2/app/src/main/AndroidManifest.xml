@@ -13,7 +13,13 @@
         android:theme="@style/Theme.Lab2"
         tools:targetApi="31">
         <activity
-            android:name=".LastStep"
+            android:name=".StudentInfo"
+            android:exported="false" />
+        <activity
+            android:name=".FourthStep"
+            android:exported="false" />
+        <activity
+            android:name=".ThirdStep"
             android:exported="false" />
         <activity
             android:name=".FirstStep"

@@ -6,7 +6,6 @@
     <string name="middle_name_hint">Middle Name</string>
     <string name="last_name_hint">Last Name</string>
     <string name="faculty_hint">Choose faculty</string>
-    <string name="button_save">Save</string>
     <string name="date_hint">Admission date</string>
     <string name="date_format">%1$s / %2$s / %3$d</string>
     <string name="course_hint">Choose your course</string>
@@ -17,4 +16,13 @@
     <string name="fifth_course">5</string>
     <string name="button_new">Create</string>
     <string name="main_label">BSTU STUDENTS</string>
+    <string name="email_hint">E-mail</string>
+    <string name="phone_hint">Phone</string>
+    <string name="social_media_hint">Vkontakte ID</string>
+    <string name="photo_hint">Photo</string>
+    <string name="image_description">Image</string>
+    <string name="phone_format">Phone: <u>%1s</u></string>
+    <string name="email_format">E-mail: <u>%1s</u></string>
+    <string name="faculty_format">%1s-%2d %3s</string>
+    <string name="social_media_format">Vkontakte ID: <u>%1s</u></string>
 </resources>

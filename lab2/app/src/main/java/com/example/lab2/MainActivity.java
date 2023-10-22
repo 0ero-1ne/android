@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -78,6 +80,12 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, FirstStep.class);
             startActivity(intent);
             finish();
+        });
+
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent(this, StudentInfo.class);
+            intent.putExtra("student", new Gson().toJson(students.get(position)));
+            startActivity(intent);
         });
     }
 }

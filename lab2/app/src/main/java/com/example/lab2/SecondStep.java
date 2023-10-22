@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -98,7 +97,7 @@ public class SecondStep extends AppCompatActivity {
                 return;
             }
 
-            Intent intent = new Intent(this, LastStep.class);
+            Intent intent = new Intent(this, ThirdStep.class);
             startActivity(intent);
         });
     }

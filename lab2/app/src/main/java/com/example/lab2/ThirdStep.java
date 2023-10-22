@@ -12,27 +12,16 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
-public class LastStep extends AppCompatActivity {
-    private final static String FILE_NAME = "students.json";
+public class ThirdStep extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     String admissionDate;
     int currentCourse;
-    List<Student> students;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_last_step);
+        setContentView(R.layout.activity_third_step);
 
         sharedPreferences = getSharedPreferences("APP_SETTINGS", Context.MODE_PRIVATE);
 
@@ -65,8 +54,8 @@ public class LastStep extends AppCompatActivity {
             startActivity(intent);
         });
 
-        Button saveButton = findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(view -> {
+        Button nextPageButton = findViewById(R.id.saveButton);
+        nextPageButton.setOnClickListener(view -> {
             if (admissionDate.equals("")) {
                 dateEditText.setError("Pick admission date");
                 return;
@@ -74,28 +63,11 @@ public class LastStep extends AppCompatActivity {
 
             if (currentCourse == -1) {
                 ((RadioButton)findViewById(R.id.radio5)).setError("Choose your current course");
+                return;
             }
 
-            int formattedCourse = Integer.parseInt(((RadioButton)findViewById(currentCourse)).getText().toString());
-
-            Student student = new Student(
-                    sharedPreferences.getString("firstName", ""),
-                    sharedPreferences.getString("lastName", ""),
-                    sharedPreferences.getString("middleName", ""),
-                    sharedPreferences.getString("faculty", ""),
-                    sharedPreferences.getString("speciality", ""),
-                    sharedPreferences.getString("admissionDate", ""),
-                    formattedCourse
-            );
-
-            getStudentsFromFile();
-            students.add(student);
-            saveStudentsIntoFile();
-
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("clearEdit", true);
+            Intent intent = new Intent(this, FourthStep.class);
             startActivity(intent);
-            finish();
         });
     }
 
@@ -120,40 +92,6 @@ public class LastStep extends AppCompatActivity {
         if (currentCourse != -1) {
             RadioButton radioButton = findViewById(currentCourse);
             radioButton.setChecked(true);
-        }
-    }
-
-    private void getStudentsFromFile() {
-        Gson gson = new Gson();
-
-        try {
-            FileInputStream fin = openFileInput(FILE_NAME);
-            byte[] bytes = new byte[fin.available()];
-            fin.read(bytes);
-            String input = new String(bytes);
-            students = gson.fromJson(input, new TypeToken<List<Student>>() {}.getType());
-            fin.close();
-
-            if (students == null) {
-                students = new ArrayList<>();
-            }
-        }
-        catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-
-    private void saveStudentsIntoFile() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        try {
-            FileOutputStream fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
-            String output = gson.toJson(students);
-            fos.write(output.getBytes());
-            fos.close();
-        }
-        catch (IOException ex) {
-            System.out.println(ex.getMessage());
         }
     }
 }

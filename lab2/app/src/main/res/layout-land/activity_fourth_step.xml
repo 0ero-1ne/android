@@ -2,11 +2,11 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:fillViewport="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".FirstStep">
+    android:orientation="horizontal"
+    android:fillViewport="true"
+    tools:context=".FourthStep">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -19,20 +19,20 @@
             android:layout_marginStart="181dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="182dp"
-            android:progress="25"
+            android:progress="100"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/nextPageButton"
+            android:id="@+id/createStudentButton"
             android:layout_width="170dp"
             android:layout_height="60dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/page_button"
-            android:text="@string/button_next"
+            android:text="@string/button_new"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -50,7 +50,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/firstNameTextInput"
+            android:id="@+id/emailTextInput"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginStart="20dp"
@@ -60,18 +60,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/progressBar">
             <EditText
-                android:id="@+id/firstNameEditText"
+                android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:autofillHints=""
                 android:ems="10"
-                android:hint="@string/first_name_hint"
-                android:inputType="text"
+                android:hint="@string/email_hint"
+                android:inputType="textEmailAddress"
                 tools:ignore="VisualLintTextFieldSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/lastNameTextInput"
+            android:id="@+id/phoneTextInput"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginStart="20dp"
@@ -79,42 +79,55 @@
             android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/firstNameTextInput">
+            app:layout_constraintTop_toBottomOf="@id/emailTextInput">
             <EditText
-                android:id="@+id/lastNameEditText"
+                android:id="@+id/phoneEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:autofillHints=""
                 android:ems="10"
-                android:hint="@string/last_name_hint"
-                android:inputType="text"
+                android:hint="@string/phone_hint"
+                android:inputType="phone"
                 android:textColorHint="#546E7A"
                 tools:ignore="VisualLintTextFieldSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/middleNameTextInput"
+            android:id="@+id/socialMediaTextInput"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="60dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phoneTextInput">
+
+            <EditText
+                android:id="@+id/socialMediaEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/social_media_hint"
+                android:inputType="text"
+                android:textColorHint="#546E7A"
+                tools:ignore="VisualLintTextFieldSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginBottom="60dp"
+            android:contentDescription="@string/image_description"
+            android:src="@drawable/image"
+            android:tag="noImage"
             app:layout_constraintBottom_toTopOf="@+id/prevPageButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lastNameTextInput">
-
-            <EditText
-                android:id="@+id/middleNameEditText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:autofillHints=""
-                android:ems="10"
-                android:hint="@string/middle_name_hint"
-                android:inputType="text"
-                android:textColorHint="#546E7A"
-                tools:ignore="VisualLintTextFieldSize" />
-        </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintTop_toBottomOf="@+id/socialMediaTextInput" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
