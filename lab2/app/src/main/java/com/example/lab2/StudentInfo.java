@@ -46,7 +46,7 @@ public class StudentInfo extends AppCompatActivity {
 
         phone.setOnClickListener(v -> {
             Intent callIntent = new Intent(Intent.ACTION_DIAL);
-            callIntent.setData(Uri.parse("tel:" + "80 " + student.phone));
+            callIntent.setData(Uri.parse("tel:" + student.phone));
             startActivity(callIntent);
         });
 
