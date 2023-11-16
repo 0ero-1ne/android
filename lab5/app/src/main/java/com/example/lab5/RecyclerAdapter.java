@@ -1,5 +1,6 @@
 package com.example.lab5;
 
+import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +11,19 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     private ArrayList<Uri> uriArrayList;
+    private Context context;
 
-    public RecyclerAdapter(ArrayList<Uri> uriArrayList) {
+    public RecyclerAdapter(ArrayList<Uri> uriArrayList, Context context) {
         this.uriArrayList = uriArrayList;
+        this.context = context;
     }
 
     @NonNull
@@ -41,7 +48,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapter.ViewHolder holder, int position) {
-        holder.imageView.setImageURI(uriArrayList.get(position));
+        Glide
+            .with(context)
+            .load(uriArrayList.get(position))
+            .dontAnimate()
+            .into(holder.imageView);
         holder.imageView.setTag(uriArrayList.get(position));
     }
 

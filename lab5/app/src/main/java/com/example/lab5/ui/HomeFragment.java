@@ -1,24 +1,20 @@
 package com.example.lab5.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.SimpleAdapter;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.lab5.Event;
+import com.example.lab5.EventActivity;
 import com.example.lab5.EventSavier;
 import com.example.lab5.R;
 import com.example.lab5.databinding.FragmentHomeBinding;
@@ -32,7 +28,8 @@ import java.util.Map;
 import java.util.Objects;
 
 public class HomeFragment extends Fragment {
-    List<Event> eventsList;
+    SimpleAdapter simpleAdapter;
+    List<Map<String, String>> listItems;
     private FragmentHomeBinding binding;
     private ListView listView;
 
@@ -42,10 +39,10 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        eventsList = EventSavier.getEvents(requireContext());
+        List<Event> eventsList = EventSavier.getEvents(requireContext());
         listView = binding.eventsList;
 
-        List<Map<String, String>> listItems = new ArrayList<>();
+        listItems = new ArrayList<>();
 
         String[] eventsNames = new String[eventsList.size()];
         String[] eventsDates = new String[eventsList.size()];
@@ -62,7 +59,7 @@ public class HomeFragment extends Fragment {
             listItems.add(item);
         }
 
-        SimpleAdapter simpleAdapter = new SimpleAdapter(
+        simpleAdapter = new SimpleAdapter(
             requireContext(),
             listItems,
             android.R.layout.simple_list_item_2,
@@ -73,7 +70,6 @@ public class HomeFragment extends Fragment {
         listView.setAdapter(simpleAdapter);
 
         listView.setOnItemLongClickListener(showPopupMenu);
-
 
         return root;
     }
@@ -113,13 +109,17 @@ public class HomeFragment extends Fragment {
         popupMenu.setOnMenuItemClickListener(item -> {
             switch (Objects.requireNonNull(item.getTitle()).toString()) {
                 case "Preview":
-                    System.out.println("Preview");
+                    Intent intent = new Intent(requireContext(), EventActivity.class);
+                    intent.putExtra("eventId", position);
+                    requireActivity().startActivity(intent);
                     break;
                 case "Edit":
                     System.out.println("Edit");
                     break;
                 case "Delete":
-                    System.out.println("Delete");
+                    listItems.remove(position);
+                    simpleAdapter.notifyDataSetChanged();
+                    EventSavier.deleteEventById(position, requireContext());
                     break;
                 default:
                     break;
@@ -130,5 +130,4 @@ public class HomeFragment extends Fragment {
 
         return false;
     };
-
 }

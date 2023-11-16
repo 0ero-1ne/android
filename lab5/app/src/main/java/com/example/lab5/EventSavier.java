@@ -14,9 +14,16 @@ import java.util.List;
 
 public class EventSavier {
     public static void saveEvent(Event event, Context context) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         List<Event> events = getEvents(context);
+        if (event == null) {
+            return;
+        }
         events.add(event);
+        saveEvents(events, context);
+    }
+
+    public static void saveEvents(List<Event> events, Context context) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         try {
             FileOutputStream fos = context.openFileOutput("events.json", android.content.Context.MODE_PRIVATE);
@@ -55,4 +62,14 @@ public class EventSavier {
         return events;
     }
 
+    public static Event getEventById(int eventId, Context context) {
+        List<Event> events = getEvents(context);
+        return events.get(eventId);
+    }
+
+    public static void deleteEventById(int eventId, Context context) {
+        List<Event> events = getEvents(context);
+        events.remove(eventId);
+        saveEvents(events, context);
+    }
 }

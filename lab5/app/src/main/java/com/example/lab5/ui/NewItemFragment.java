@@ -9,9 +9,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,7 +27,6 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Objects;
 
 public class NewItemFragment extends Fragment {
     private FragmentNewItemBinding binding;
@@ -43,7 +39,7 @@ public class NewItemFragment extends Fragment {
         View root = binding.getRoot();
 
         uri = new ArrayList<>();
-        recyclerAdapter = new RecyclerAdapter(uri);
+        recyclerAdapter = new RecyclerAdapter(uri, requireContext());
 
         TextInputEditText eventDate = binding.eventDateEditText;
 
