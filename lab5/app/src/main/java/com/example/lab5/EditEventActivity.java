@@ -1,51 +1,58 @@
-package com.example.lab5.ui;
+package com.example.lab5;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
-import com.example.lab5.Event;
-import com.example.lab5.EventSavier;
-import com.example.lab5.MainActivity;
-import com.example.lab5.R;
-import com.example.lab5.RecyclerAdapter;
-import com.example.lab5.databinding.FragmentNewItemBinding;
-import com.google.android.material.textfield.TextInputEditText;
+import com.example.lab5.databinding.ActivityEditEventBinding;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-public class NewItemFragment extends Fragment {
-    private FragmentNewItemBinding binding;
-    private ArrayList<Uri> uri;
-    private RecyclerAdapter recyclerAdapter;
+
+public class EditEventActivity extends AppCompatActivity {
+    ActivityEditEventBinding binding;
+    ArrayList<Uri> uri;
+    RecyclerAdapter recyclerAdapter;
+    RecyclerView recyclerView;
+    List<Event> eventList;
+    int eventId;
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = FragmentNewItemBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityEditEventBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        uri = new ArrayList<>();
-        recyclerAdapter = new RecyclerAdapter(uri, requireContext());
+        eventId = getIntent().getIntExtra("eventId", -1);
+        eventList = EventSavier.getEvents(this);
+        Event event = eventList.get(eventId);
+        uri = event.getImagesList();
 
-        TextInputEditText eventDate = binding.eventDateEditText;
+        TextView eventName = binding.eventNameEditText;
+        TextView eventDate = binding.eventDateEditText;
+        TextView eventDescription = binding.eventDescriptionEditText;
 
-        RecyclerView eventRecyclerView = binding.eventPickedImages;
-        eventRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        eventRecyclerView.setAdapter(recyclerAdapter);
+        recyclerView = binding.eventPickedImages;
+        recyclerAdapter = new RecyclerAdapter(uri, this);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.setAdapter(recyclerAdapter);
+        recyclerAdapter.notifyDataSetChanged();
+
+        eventName.setText(event.getName());
+        eventDate.setText(event.getDate());
+        eventDescription.setText(event.getDescription());
 
         Button eventSaveButton = binding.eventSaveButton;
         eventSaveButton.setOnClickListener(saveEvent);
@@ -60,14 +67,6 @@ public class NewItemFragment extends Fragment {
         });
 
         eventDate.setOnClickListener(datePickListener);
-
-        return root;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 
     @Override
@@ -99,7 +98,7 @@ public class NewItemFragment extends Fragment {
         int month = calendar.get(Calendar.MONTH);
         int year = calendar.get(Calendar.YEAR);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (datePicker, y, m, d) -> {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (datePicker, y, m, d) -> {
             String formatDay = d < 10 ? "0" + d : d + "";
             String formatMonth = (m + 1) < 10 ? "0" + (m + 1) : m + 1 + "";
 
@@ -132,9 +131,11 @@ public class NewItemFragment extends Fragment {
                 binding.eventDescriptionEditText.getText().toString(),
                 uri
         );
-        EventSavier.saveEvent(event, getContext());
 
-        startActivity(new Intent(requireContext(), MainActivity.class));
-        requireActivity().finish();
+        eventList.set(eventId, event);
+        EventSavier.saveEvents(eventList, this);
+
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     };
 }

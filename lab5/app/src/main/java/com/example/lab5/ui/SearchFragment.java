@@ -14,6 +14,7 @@ import android.widget.SimpleAdapter;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.lab5.EditEventActivity;
 import com.example.lab5.Event;
 import com.example.lab5.EventActivity;
 import com.example.lab5.EventSavier;
@@ -85,14 +86,17 @@ public class SearchFragment extends Fragment {
         popupMenu.show();
 
         popupMenu.setOnMenuItemClickListener(item -> {
+            Intent intent;
             switch (Objects.requireNonNull(item.getTitle()).toString()) {
                 case "Preview":
-                    Intent intent = new Intent(requireContext(), EventActivity.class);
+                    intent = new Intent(requireContext(), EventActivity.class);
                     intent.putExtra("eventId", position);
                     requireActivity().startActivity(intent);
                     break;
                 case "Edit":
-                    System.out.println("Edit");
+                    intent = new Intent(requireContext(), EditEventActivity.class);
+                    intent.putExtra("eventId", position);
+                    requireActivity().startActivity(intent);
                     break;
                 case "Delete":
                     listItems.remove(position);
