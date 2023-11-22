@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.lab5.databinding.ActivityEditEventBinding;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -23,6 +26,7 @@ import java.util.List;
 
 public class EditEventActivity extends AppCompatActivity {
     ActivityEditEventBinding binding;
+    ArrayList<Bitmap> bitmaps;
     ArrayList<Uri> uri;
     RecyclerAdapter recyclerAdapter;
     RecyclerView recyclerView;
@@ -37,14 +41,15 @@ public class EditEventActivity extends AppCompatActivity {
         eventId = getIntent().getIntExtra("eventId", -1);
         eventList = EventSavier.getEvents(this);
         Event event = eventList.get(eventId);
-        uri = event.getImagesList();
+        bitmaps = event.getImagesList();
+        uri = event.getUriImagesList();
 
         TextView eventName = binding.eventNameEditText;
         TextView eventDate = binding.eventDateEditText;
         TextView eventDescription = binding.eventDescriptionEditText;
 
         recyclerView = binding.eventPickedImages;
-        recyclerAdapter = new RecyclerAdapter(uri, this);
+        recyclerAdapter = new RecyclerAdapter(bitmaps, uri, this, true);
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setAdapter(recyclerAdapter);
@@ -77,14 +82,38 @@ public class EditEventActivity extends AppCompatActivity {
             assert data != null;
             if (data.getData() != null) {
                 if (!uri.contains(data.getData())) {
-                    uri.add(data.getData());
+                    try {
+                        bitmaps.add(
+                                ImageDecoder.decodeBitmap(
+                                        ImageDecoder.createSource(
+                                                getContentResolver(),
+                                                data.getData()
+                                        )
+                                )
+                        );
+                        uri.add(data.getData());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             } else if (data.getClipData() != null) {
                 int dataClipCount = data.getClipData().getItemCount();
 
                 for (int i = 0; i < dataClipCount; i++) {
                     if (!uri.contains(data.getClipData().getItemAt(i).getUri())) {
-                        uri.add(data.getClipData().getItemAt(i).getUri());
+                        try {
+                            bitmaps.add(
+                                    ImageDecoder.decodeBitmap(
+                                            ImageDecoder.createSource(
+                                                    getContentResolver(),
+                                                    data.getClipData().getItemAt(i).getUri()
+                                            )
+                                    )
+                            );
+                            uri.add(data.getClipData().getItemAt(i).getUri());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
             }
@@ -129,6 +158,7 @@ public class EditEventActivity extends AppCompatActivity {
                 binding.eventNameEditText.getText().toString(),
                 binding.eventDateEditText.getText().toString(),
                 binding.eventDescriptionEditText.getText().toString(),
+                bitmaps,
                 uri
         );
 

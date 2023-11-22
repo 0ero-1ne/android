@@ -1,6 +1,9 @@
 package com.example.lab5.ui;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,15 +12,19 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lab5.EditEventActivity;
 import com.example.lab5.Event;
 import com.example.lab5.EventActivity;
 import com.example.lab5.EventSavier;
 import com.example.lab5.R;
+import com.example.lab5.RecyclerAdapter;
 import com.example.lab5.databinding.FragmentHomeBinding;
 
 import java.lang.reflect.Field;
@@ -32,7 +39,11 @@ public class HomeFragment extends Fragment {
     SimpleAdapter simpleAdapter;
     List<Map<String, String>> listItems;
     private FragmentHomeBinding binding;
-    private ListView listView;
+    ArrayList<Bitmap> imagesList;
+    ArrayList<Uri> uri;
+    RecyclerAdapter recyclerAdapter;
+    RecyclerView recyclerView;
+    Event event;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,7 +52,7 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         List<Event> eventsList = EventSavier.getEvents(requireContext());
-        listView = binding.eventsList;
+        ListView listView = binding.eventsList;
 
         listItems = new ArrayList<>();
 
@@ -71,6 +82,7 @@ public class HomeFragment extends Fragment {
         listView.setAdapter(simpleAdapter);
 
         listView.setOnItemLongClickListener(showPopupMenu);
+        listView.setOnItemClickListener(showDetails);
 
         return root;
     }
@@ -98,6 +110,29 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
+    private final AdapterView.OnItemClickListener showDetails = (parent, view, position, id) -> {
+        if (requireActivity().getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            return;
+        }
+        event = EventSavier.getEventById(position, requireContext());
+
+        TextView eventTitle = binding.eventTitle;
+        TextView eventDescription = binding.eventDescription;
+        TextView eventDate = binding.eventDate;
+
+        recyclerView = binding.eventImages;
+        imagesList = event.getImagesList();
+        uri = event.getUriImagesList();
+
+        recyclerAdapter = new RecyclerAdapter(imagesList, uri, requireContext(), false);
+        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+        recyclerView.setAdapter(recyclerAdapter);
+
+        eventTitle.setText(event.getName());
+        eventDescription.setText(event.getDescription());
+        eventDate.setText(event.getDate());
+    };
 
     private final AdapterView.OnItemLongClickListener showPopupMenu = (parent, view, position, id) -> {
         PopupMenu popupMenu = new PopupMenu(requireContext(), view);

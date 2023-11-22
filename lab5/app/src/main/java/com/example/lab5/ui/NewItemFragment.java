@@ -3,6 +3,8 @@ package com.example.lab5.ui;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -25,11 +27,13 @@ import com.example.lab5.RecyclerAdapter;
 import com.example.lab5.databinding.FragmentNewItemBinding;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class NewItemFragment extends Fragment {
     private FragmentNewItemBinding binding;
+    private ArrayList<Bitmap> bitmaps;
     private ArrayList<Uri> uri;
     private RecyclerAdapter recyclerAdapter;
     @Override
@@ -38,13 +42,14 @@ public class NewItemFragment extends Fragment {
         binding = FragmentNewItemBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        bitmaps = new ArrayList<>();
         uri = new ArrayList<>();
-        recyclerAdapter = new RecyclerAdapter(uri, requireContext());
+        recyclerAdapter = new RecyclerAdapter(bitmaps, uri, requireContext(), true);
 
         TextInputEditText eventDate = binding.eventDateEditText;
 
         RecyclerView eventRecyclerView = binding.eventPickedImages;
-        eventRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        eventRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 3));
         eventRecyclerView.setAdapter(recyclerAdapter);
 
         Button eventSaveButton = binding.eventSaveButton;
@@ -78,14 +83,38 @@ public class NewItemFragment extends Fragment {
             assert data != null;
             if (data.getData() != null) {
                 if (!uri.contains(data.getData())) {
-                    uri.add(data.getData());
+                    try {
+                        bitmaps.add(
+                                ImageDecoder.decodeBitmap(
+                                        ImageDecoder.createSource(
+                                            requireContext().getContentResolver(),
+                                            data.getData()
+                                        )
+                                )
+                        );
+                        uri.add(data.getData());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             } else if (data.getClipData() != null) {
                 int dataClipCount = data.getClipData().getItemCount();
 
                 for (int i = 0; i < dataClipCount; i++) {
                     if (!uri.contains(data.getClipData().getItemAt(i).getUri())) {
-                        uri.add(data.getClipData().getItemAt(i).getUri());
+                        try {
+                            bitmaps.add(
+                                    ImageDecoder.decodeBitmap(
+                                            ImageDecoder.createSource(
+                                                    requireContext().getContentResolver(),
+                                                    data.getClipData().getItemAt(i).getUri()
+                                            )
+                                    )
+                            );
+                            uri.add(data.getClipData().getItemAt(i).getUri());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
             }
@@ -130,6 +159,7 @@ public class NewItemFragment extends Fragment {
                 binding.eventNameEditText.getText().toString(),
                 binding.eventDateEditText.getText().toString(),
                 binding.eventDescriptionEditText.getText().toString(),
+                bitmaps,
                 uri
         );
         EventSavier.saveEvent(event, getContext());

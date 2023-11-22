@@ -1,25 +1,22 @@
 package com.example.lab5;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import com.example.lab5.databinding.ActivityMainBinding;
-import com.google.android.material.appbar.MaterialToolbar;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    List<Event> events;
     ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,5 +39,17 @@ public class MainActivity extends AppCompatActivity {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
         NavigationUI.setupWithNavController(binding.bottomNavigationBar, navController);
+    }
+
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            startActivity(intent);
+            finish();
+        }
     }
 }

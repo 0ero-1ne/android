@@ -1,32 +1,24 @@
 package com.example.lab5;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.lab5.databinding.ActivityEventBinding;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class EventActivity extends AppCompatActivity {
     ActivityEventBinding binding;
-    ArrayList<Uri> imagesList;
+    ArrayList<Bitmap> imagesList;
+    ArrayList<Uri> uri;
     RecyclerAdapter recyclerAdapter;
     RecyclerView recyclerView;
     @Override
@@ -48,8 +40,9 @@ public class EventActivity extends AppCompatActivity {
 
         recyclerView = binding.eventImages;
         imagesList = event.getImagesList();
+        uri = event.getUriImagesList();
 
-        recyclerAdapter = new RecyclerAdapter(imagesList, this);
+        recyclerAdapter = new RecyclerAdapter(imagesList, uri,this, false);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setAdapter(recyclerAdapter);
 

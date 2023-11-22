@@ -50,7 +50,8 @@ public class EventSavier {
 
             for (Event event: events) {
                 event.ImagesList = new ArrayList<>();
-                event.castStringsToUri(event.StringImagesList);
+                event.castStringsToBitmap(event.StringImagesList);
+                event.castStringsToUri(event.UriImagesList);
             }
             
             fin.close();
