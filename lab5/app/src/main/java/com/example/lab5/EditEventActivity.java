@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.lab5.databinding.ActivityEditEventBinding;
+import com.google.android.material.appbar.MaterialToolbar;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,6 +73,9 @@ public class EditEventActivity extends AppCompatActivity {
         });
 
         eventDate.setOnClickListener(datePickListener);
+
+        MaterialToolbar toolbar = binding.appToolbar;
+        toolbar.setOnMenuItemClickListener(backButtonListener);
     }
 
     @Override
@@ -167,5 +171,16 @@ public class EditEventActivity extends AppCompatActivity {
 
         startActivity(new Intent(this, MainActivity.class));
         finish();
+    };
+
+    private final MaterialToolbar.OnMenuItemClickListener backButtonListener = (item) -> {
+        if (item.getItemId() == R.id.navigation_back) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+
+        return false;
     };
 }
